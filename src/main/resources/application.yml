@@ -1,0 +1,11 @@
+server:
+  tomcat:
+    max-threads: 500
+    accept-count: 200
+  compression:
+    enabled: true
+    mime-types: video/mp4
+    min-response-size: 1024
+spring:
+  resources:
+    static-locations: file:./static/
