@@ -6,6 +6,27 @@ server:
     enabled: true
     mime-types: video/mp4
     min-response-size: 1024
-spring:
-  resources:
-    static-locations: file:./static/
+application:
+  source-path:
+    image: src/main/resources/source/image
+    audio: src/main/resources/source/audio
+    video: src/main/resources/source/video
+    document: src/main/resources/source/document
+    web-resource: src/main/resources/web-resource
+  source:
+    video:
+      content-size: 1 # MB
+security:
+  ip-token:
+    secret: 120PD9V0DKXZEUQ4 # 16-char key (128-bit)
+  token:
+    expire-unit: # day, hour, minute, second
+      image: second
+      audio: second
+      video: second
+      document: second
+    expire-duration:
+      image: 120
+      audio: 60
+      video: 60
+      document: 60
