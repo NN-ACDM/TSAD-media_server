@@ -6,7 +6,7 @@ import java.util.Base64;
 
 public class AesTokenUtils {
 
-    public static String encrypt(String secretKey, String ip) throws Exception {
+    public String encrypt(String secretKey, String ip) throws Exception {
         SecretKeySpec key = new SecretKeySpec(secretKey.getBytes(), "AES");
 
         Cipher cipher = Cipher.getInstance("AES");
@@ -16,7 +16,7 @@ public class AesTokenUtils {
         return Base64.getUrlEncoder().encodeToString(encrypted); // URL-safe token
     }
 
-    public static String decrypt(String secretKey, String token) throws Exception {
+    public String decrypt(String secretKey, String token) throws Exception {
         SecretKeySpec key = new SecretKeySpec(secretKey.getBytes(), "AES");
 
         Cipher cipher = Cipher.getInstance("AES");

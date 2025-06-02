@@ -30,7 +30,7 @@ public class VideoStreamingService {
     private final Logger log = LoggerFactory.getLogger(VideoStreamingService.class);
 
     @Value("${spring.application.source.video.content-size:1}")
-    private static int VIDEO_CONTENT_SIZE;
+    private int VIDEO_CONTENT_SIZE;
 
     @Value("${spring.application.source-path.video}")
     private String VIDEO_SOURCE_DIR;
@@ -74,7 +74,7 @@ public class VideoStreamingService {
                 });
     }
 
-    public static ResourceRegion getResourceRegion(HttpHeaders headers,
+    public ResourceRegion getResourceRegion(HttpHeaders headers,
                                                    long contentLength,
                                                    UrlResource videoResource) {
         ResourceRegion region;

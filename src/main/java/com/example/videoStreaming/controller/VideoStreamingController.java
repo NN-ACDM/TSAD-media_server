@@ -37,7 +37,7 @@ public class VideoStreamingController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 
-        ResourceRegion region = VideoStreamingService.getResourceRegion(headers, videoResource.contentLength(), videoResource);
+        ResourceRegion region = videoStreamingService.getResourceRegion(headers, videoResource.contentLength(), videoResource);
 
         return ResponseEntity
                 .status(HttpStatus.PARTIAL_CONTENT)
