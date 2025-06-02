@@ -29,10 +29,10 @@ import java.util.concurrent.ConcurrentHashMap;
 public class VideoStreamingService {
     private final Logger log = LoggerFactory.getLogger(VideoStreamingService.class);
 
-    @Value("${application.source.video.content-size:1}")
+    @Value("${spring.application.source.video.content-size:1}")
     private static int VIDEO_CONTENT_SIZE;
 
-    @Value("${application.source-path.video}")
+    @Value("${spring.application.source-path.video}")
     private String VIDEO_SOURCE_DIR;
 
     @Value("${security.token.expire-duration.video}")
@@ -95,20 +95,20 @@ public class VideoStreamingService {
     public String getRegisterToken(String clientIp, VideoAccessUrlRq rq) {
         Path videoPath;
         try {
-            videoPath = fileUtils.findFilePathByFileName(Paths.get(VIDEO_SOURCE_DIR), rq.getVideoFileName());
+            videoPath = fileUtils.findFilePathByFileName(Paths.get(VIDEO_SOURCE_DIR), rq.getFileName());
         } catch (RuntimeException re) {
             log.error("getRegisterToken() ... finding error: {}", re.getMessage(), re);
             throw new RuntimeException("generate access url error via finding");
         }
 
         if (ObjectUtils.isEmpty(videoPath)) {
-            log.warn("getRegisterToken() ... file: {} not found", rq.getVideoFileName());
+            log.warn("getRegisterToken() ... file: {} not found", rq.getFileName());
             throw new RuntimeException("generate access url error");
         }
 
         try {
             String registerToken = tokenService.registerToken(
-                    clientIp,
+                    "16810",
                     videoPath,
                     TOKEN_EXPIRED_DURATION,
                     TokenExpireUnit.fromString(TOKEN_EXPIRED_UNIT).getChronoUnit()

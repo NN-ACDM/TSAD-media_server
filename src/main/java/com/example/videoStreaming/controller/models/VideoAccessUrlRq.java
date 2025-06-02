@@ -5,5 +5,5 @@ import lombok.Data;
 
 @Data
 public class VideoAccessUrlRq {
-    private String videoFileName;
+    private String fileName;
 }
