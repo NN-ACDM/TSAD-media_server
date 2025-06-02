@@ -1,6 +1,7 @@
 package com.example.videoStreaming.services;
 
 import com.example.videoStreaming.services.models.CustomToken;
+import com.example.videoStreaming.utils.AesTokenUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,8 +13,6 @@ import java.time.temporal.TemporalUnit;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import static com.example.videoStreaming.utils.AesTokenUtils.encrypt;
-
 @Service
 public class TokenService {
     private final Logger log = LoggerFactory.getLogger(TokenService.class);
@@ -21,7 +20,7 @@ public class TokenService {
     @Value("${security.ip-token.secret}")
     private String SECRET_KEY;
 
-    private static final Map<String, CustomToken> tokenStore = new ConcurrentHashMap<>();
+    private static Map<String, CustomToken> tokenStore = new ConcurrentHashMap<>();
 
     public String registerToken(String clientIp, Path filePath, int tokenExpireDuration, TemporalUnit tokenExpireUnit) {
         String token = this.generateTokenByIp(clientIp);
@@ -32,7 +31,8 @@ public class TokenService {
 
     private String generateTokenByIp(String ipAddress) {
         try {
-            return encrypt(SECRET_KEY, ipAddress);
+            AesTokenUtils tokenUtils = new AesTokenUtils();
+            return tokenUtils.encrypt(SECRET_KEY, ipAddress);
         } catch (Exception e) {
             log.error("generateTokenByIp() ... Error encrypting IP: {}", ipAddress, e);
             throw new RuntimeException("Error encrypting IP");
