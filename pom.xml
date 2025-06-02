@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>videoStreaming</artifactId>
+	<artifactId>media-server</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>videoStreaming</name>
 	<description>video streaming</description>

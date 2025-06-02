@@ -19,7 +19,7 @@ public class TokenService {
     private final Logger log = LoggerFactory.getLogger(TokenService.class);
 
     @Value("${security.ip-token.secret}")
-    private static String SECRET_KEY;
+    private String SECRET_KEY;
 
     private static final Map<String, CustomToken> tokenStore = new ConcurrentHashMap<>();
 

@@ -22,6 +22,7 @@ public class VideoStreamingController {
     @PostMapping("/access-url")
     public VideoAccessUrlRs getTemporaryAccessUrl(@RequestAttribute("clientIp") String clientIp,
                                                   @RequestBody VideoAccessUrlRq rq) {
+        // TODO add JWT
         String registerToken = videoStreamingService.getRegisterToken(clientIp, rq);
         return new VideoAccessUrlRs(registerToken);
     }
