@@ -20,6 +20,8 @@ spring:
       video:
         content-size: 1 # MB
 security:
+  jwt-token:
+    secret: f7RDrRhuJo6McWeCQlBrY68SnjX8JT8r # 256-bit key
   ip-token:
     secret: 120PD9V0DKXZEUQ4 # 16-char key (128-bit)
   token:
@@ -33,3 +35,19 @@ security:
       audio: 60
       video: 60
       document: 60
+webservicedb:
+  datasource:
+    poolName: webservicedb-pool
+    connectionTimeOut: 10000
+    maximumPoolSize: 20
+    jdbcUrl: jdbc:postgresql://localhost:5432/tsad_local_db
+    username: tsad_local
+    password: tsad-24@local
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
