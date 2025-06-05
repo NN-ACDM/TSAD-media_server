@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigInteger;
+import java.sql.Time;
+import java.util.Date;
 
 @Data
 @Entity
@@ -22,10 +24,10 @@ public class VideoDetailEntity {
     private String extension;
 
     @Column(name = "duration")
-    private Double duration;
+    private Time duration;
 
     @Column(name = "upload_datetime")
-    private Data uploadDatetime;
+    private Date uploadDatetime;
 
     @Column(name = "is_available")
     private boolean isAvailable;
