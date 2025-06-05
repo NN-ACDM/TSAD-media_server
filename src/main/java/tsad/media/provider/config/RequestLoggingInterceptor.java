@@ -16,12 +16,12 @@ public class RequestLoggingInterceptor implements HandlerInterceptor {
     public boolean preHandle(HttpServletRequest request,
                              @Nullable HttpServletResponse response,
                              @Nullable Object handler) {
-        String ip = request.getHeader("X-Forwarded-For"); // for proxies/load balancers
+        String ip = request.getHeader("X-Forwarded-For");
         if (ip == null) {
             ip = request.getRemoteAddr();
         }
         request.setAttribute("clientIp", ip);
         log.info("preHandle() ... Incoming request from IP: {}", ip);
-        return true; // continue to controller
+        return true;
     }
 }

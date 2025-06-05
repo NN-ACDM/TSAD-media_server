@@ -1,20 +1,21 @@
 package tsad.media.provider.services;
 
 import org.apache.tika.Tika;
+import org.mp4parser.IsoFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import tsad.media.provider.repository.webservicedb.jpa.VideoDetailRepository;
 import tsad.media.provider.repository.webservicedb.jpa.model.VideoDetailEntity;
 import tsad.media.provider.services.models.MediaFileInfo;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Service
 public class SyncMediaDataService {
@@ -25,7 +26,6 @@ public class SyncMediaDataService {
 
     private final Tika tika = new Tika();
 
-    @Transactional
     public void scanDirectory(File directory) {
         log.info("scanDirectory() ... start");
         List<MediaFileInfo> result = new ArrayList<>();
@@ -36,13 +36,18 @@ public class SyncMediaDataService {
             VideoDetailEntity videoDetail = new VideoDetailEntity();
             videoDetail.setFilename(info.getFilename());
             videoDetail.setExtension(info.getExtension());
-            videoDetail.setDuration(info.getDurationSeconds());
-            // videoDetail.setUploadDatetime();
+            videoDetail.setDuration(new Time(info.getDurationSeconds().longValue()));
+            videoDetail.setUploadDatetime(new Date());
             videoDetail.setAvailable(true);
             videoDetail.setFileSize(info.getSize());
             videoDetail.setResourcePath(info.getResourcePath());
+
+            videoDetails.add(videoDetail);
         }
 
+        if (videoDetails.isEmpty()) {
+            return;
+        }
         videoDetailRepository.deleteAll();
         log.info("scanDirectory() ... delete all data done");
         videoDetailRepository.saveAll(videoDetails);
@@ -64,8 +69,6 @@ public class SyncMediaDataService {
                 long size = file.length();
                 Double duration = null;
                 String resourcePath = file.getPath();
-                // file.getPath(); // Path relative to the working directory
-                // file.toPath(); // java.nio.file.Path object
 
                 try {
                     String mime = tika.detect(file);
@@ -87,21 +90,11 @@ public class SyncMediaDataService {
     }
 
     private Double getDuration(File videoFile) {
-        try {
-            ProcessBuilder pb = new ProcessBuilder(
-                    "ffprobe",
-                    "-v", "error",
-                    "-show_entries",
-                    "format=duration",
-                    "-of",
-                    "default=noprint_wrappers=1:nokey=1",
-                    videoFile.getAbsolutePath());
-            Process process = pb.start();
-            process.waitFor(5, TimeUnit.SECONDS);
-
-            String output = new String(process.getInputStream().readAllBytes()).trim();
-            return Double.parseDouble(output);
-        } catch (IOException | InterruptedException | NumberFormatException e) {
+        try (IsoFile isoFile = new IsoFile(videoFile.getAbsolutePath())) {
+            long duration = isoFile.getMovieBox().getMovieHeaderBox().getDuration();
+            long timescale = isoFile.getMovieBox().getMovieHeaderBox().getTimescale();
+            return (double) duration / timescale;
+        } catch (IOException | NumberFormatException e) {
             log.error("getDuration() ... error: {}", e.getMessage(), e);
             return null;
         }
