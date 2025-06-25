@@ -25,7 +25,10 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/auth/**",
-                                "/api/sync/media/video").permitAll()
+                                "/api/sync/media/video",
+                                "/api/videos/access-url",
+                                "/api/videos/stream/*")
+                        .permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess

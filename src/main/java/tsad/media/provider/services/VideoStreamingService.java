@@ -90,7 +90,7 @@ public class VideoStreamingService {
     public String getRegisterToken(AccessUrlRq rq) {
         Path videoPath;
         try {
-            videoPath = fileUtils.findFilePathByFileName(Paths.get(rq.getPath()), rq.getFilename());
+            videoPath = fileUtils.findFilePathByFileName(Paths.get(VIDEO_SOURCE_DIR + "/" + rq.getPath()), rq.getFilename());
         } catch (RuntimeException re) {
             log.error("getRegisterToken() ... finding error: {}", re.getMessage(), re);
             throw new RuntimeException("generate access url error via finding");

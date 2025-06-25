@@ -10,7 +10,7 @@ import java.time.Instant;
 @Data
 public class AccessUrlRq {
     private String username;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "UTC")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd_HH:mm:ss", timezone = "UTC")
     private Instant expiredDate;
     private FileCategory category;
     private String path;
