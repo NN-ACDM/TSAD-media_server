@@ -43,9 +43,9 @@ webservicedb:
     poolName: webservicedb-pool
     connectionTimeOut: 10000
     maximumPoolSize: 20
-    jdbcUrl: jdbc:postgresql://localhost:5432/tsad_local_db
-    username: tsad_local
-    password: tsad-24@local
+    jdbcUrl: jdbc:postgresql://192.168.1.100:5433/tsad_dev_db
+    username: tsad_dev
+    password: tsad-24@dev
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
