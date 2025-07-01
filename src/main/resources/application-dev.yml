@@ -8,6 +8,8 @@ server:
     enabled: true
     mime-types: video/mp4
     min-response-size: 1024
+  servlet:
+    context-path: /tsad/media
 spring:
   application:
     name: media-server
@@ -52,3 +54,12 @@ webservicedb:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    url: /tsad/media/v3/api-docs
+    config-url: /tsad/media/v3/api-docs/swagger-config
+    disable-swagger-default-url: true
