@@ -23,12 +23,11 @@ public class SecurityConfig {
         return http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/auth/**",
-                                "/api/sync/media/video",
-                                "/api/videos/access-url",
-                                "/api/videos/stream/*")
-                        .permitAll()
+                        .requestMatchers("/auth/**").permitAll()
+                        .requestMatchers("/api/sync/media/video").permitAll()
+                        .requestMatchers("/api/videos/access-url").permitAll()
+                        .requestMatchers("/api/videos/stream/*").permitAll()
+                        .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess
