@@ -1,5 +1,5 @@
-# Use Maven with Java 17 as build environment
-FROM maven:3.9-eclipse-temurin-17
+# Use Maven with Java 21 as build environment
+FROM maven:3.9-eclipse-temurin-21
 
 # Set working directory early
 WORKDIR /app
